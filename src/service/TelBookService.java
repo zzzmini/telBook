@@ -146,6 +146,30 @@ public class TelBookService implements CrudInterface{
     @Override
     public List<TelDto> searchList(String keyword) {
         System.out.println("[TelBookService.searchList]");
-        return List.of();
+        ResultSet rs = null;
+        List<TelDto> dtoList = new ArrayList<>();
+        try {
+            sql = "SELECT id, name, age, address, phone ";
+            sql = sql + " FROM telBook ";
+            sql = sql + " WHERE name like ? ";
+            sql = sql + " ORDER BY name DESC";
+            psmt = conn.prepareStatement(sql);
+            psmt.setString(1, "%" + keyword + "%");
+            rs = psmt.executeQuery();
+            // 돌면서 List<TelDto> 담는다.
+            while (rs.next()) {
+                TelDto dto = new TelDto();
+                dto.setId(rs.getInt("id"));
+                dto.setName(rs.getString("name"));
+                dto.setAge(rs.getInt("age"));
+                dto.setAddress(rs.getString("address"));
+                dto.setPhone(rs.getString("phone"));
+                dtoList.add(dto);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return dtoList;
     }
 }

@@ -180,5 +180,15 @@ public class UserView {
 
     public void searchView() {
         System.out.println("=== 전화번호 검색 ===");
+        System.out.println("이름으로 검색합니다.");
+        System.out.println("이름 전체나 일부를 입력하세요");
+        String keyword = sc.next();
+        List<TelDto> dtoList = telBookService.searchList(keyword);
+        if (dtoList.size() == 0) {
+            System.out.println("찾는 데이터가 없습니다.");
+        } else {
+            dtoList.stream()
+                    .forEach(x -> System.out.println(x));
+        }
     }
 }
