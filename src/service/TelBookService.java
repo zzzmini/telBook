@@ -3,10 +3,7 @@ package service;
 import db.DBConn;
 import dto.TelDto;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +18,8 @@ public class TelBookService implements CrudInterface{
         System.out.println("[TelBookService.InsertData]");
 
         try {
-            sql = "INSERT INTO telbook(name, age, address, phone) ";
-            sql = sql + "VALUES(?, ?, ?, ?)";
+            sql = "INSERT INTO telbook(name, age, address, phone, insertedDate) ";
+            sql = sql + "VALUES(?, ?, ?, ?, ?)";
 
             psmt = conn.prepareStatement(sql);
             // ? 각 자리를 Mapping 해 준다.
@@ -30,6 +27,8 @@ public class TelBookService implements CrudInterface{
             psmt.setInt(2, dto.getAge());
             psmt.setString(3, dto.getAddress());
             psmt.setString(4, dto.getPhone());
+            psmt.setTimestamp(5,
+                    Timestamp.valueOf(dto.getInsertedDate()));
 
             // 쿼리 실행하기
             int result = psmt.executeUpdate();
@@ -50,14 +49,16 @@ public class TelBookService implements CrudInterface{
             sql = sql + " name = ?,";
             sql = sql + " age = ?,";
             sql = sql + " address = ?,";
-            sql = sql + " phone = ?";
+            sql = sql + " phone = ?,";
+            sql = sql + " updatedDate = ?";
             sql = sql + " WHERE id = ?";
             psmt = conn.prepareStatement(sql);
             psmt.setString(1, dto.getName());
             psmt.setInt(2, dto.getAge());
             psmt.setString(3, dto.getAddress());
             psmt.setString(4, dto.getPhone());
-            psmt.setInt(5, dto.getId());
+            psmt.setTimestamp(5, Timestamp.valueOf(dto.getUpdatedDate()));
+            psmt.setInt(6, dto.getId());
             result = psmt.executeUpdate();
             psmt.close();
         } catch (SQLException e) {

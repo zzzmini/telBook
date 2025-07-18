@@ -5,6 +5,7 @@ import exception.InputValidation;
 import exception.MyException;
 import service.TelBookService;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +68,9 @@ public class UserView {
         dto.setAge(age);
         dto.setAddress(address);
         dto.setPhone(phone);
+        // 입력날짜
+        dto.setInsertedDate(LocalDateTime.now());
+        dto.setUpdatedDate(null);
 
         // 서비스에 insert 요청하기
         int result = telBookService.insertData(dto);
@@ -84,9 +88,13 @@ public class UserView {
         int updateId = sc.nextInt();
         // 수정할 데이터를 가져온다.(TelDto)
         TelDto oldDto = telBookService.findById(updateId);
+
         if (oldDto == null) {
             System.out.println("찾는 데이터가 없어요");
         } else {
+            // 수정 날짜 넣어주기
+            oldDto.setUpdatedDate(LocalDateTime.now());
+
             // 수정작업 진행
             boolean yesOrNo = true;
             // 이름 수정 처리
@@ -216,8 +224,36 @@ public class UserView {
         if (dtoList.size() == 0) {
             System.out.println("찾는 데이터가 없습니다.");
         } else {
-            dtoList.stream()
-                    .forEach(x -> System.out.println(x));
+//            dtoList.stream()
+//                    .forEach(x -> System.out.println(x));
+            for (TelDto dto : dtoList) {
+                String insertDate;
+                if (dto.getInsertedDate() != null) {
+                    insertDate = dto.getInsertedDate()
+                            .format(DateTimeFormatter
+                                    .ofPattern("yyyy-MM-dd HH:mm:ss"));
+                } else {
+                    insertDate = "";
+                }
+
+                String updateDate;
+                if (dto.getUpdatedDate() != null) {
+                    updateDate = dto.getUpdatedDate()
+                            .format(DateTimeFormatter
+                                    .ofPattern("yyyy-MM-dd HH:mm:ss"));
+                } else {
+                    updateDate = "";
+                }
+
+                String output = "id=" + dto.getId() +
+                        ", name='" + dto.getName() + '\'' +
+                        ", age=" + dto.getAge() +
+                        ", address='" + dto.getAddress() + '\'' +
+                        ", phone='" + dto.getPhone() + '\'' +
+                        ", insertedDate='" + insertDate + '\'' +
+                        ", updatedDate='" + updateDate;
+                System.out.println(output);
+            }
         }
     }
 }
