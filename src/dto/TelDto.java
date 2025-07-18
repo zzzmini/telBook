@@ -1,6 +1,6 @@
 package dto;
 
-public class TelDto {
+public class TelDto extends CommonField{
     private int id;
     private String name;
     private int age;
@@ -15,6 +15,8 @@ public class TelDto {
                 ", age=" + age +
                 ", address='" + address + '\'' +
                 ", phone='" + phone + '\'' +
+                ", insertedDate='" + getInsertedDate() + '\'' +
+                ", updatedDate='" + getUpdatedDate() +
                 '}';
     }
 

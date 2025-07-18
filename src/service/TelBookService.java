@@ -104,6 +104,24 @@ public class TelBookService implements CrudInterface{
                 dto.setAge(rs.getInt("age"));
                 dto.setAddress(rs.getString("address"));
                 dto.setPhone(rs.getString("phone"));
+                // 날짜가 null 인지 확인 후 처리
+                if (rs.getTimestamp("insertedDate") != null) {
+                    dto.setInsertedDate(
+                            rs.getTimestamp("insertedDate")
+                                    .toLocalDateTime());
+                } else {
+                    dto.setUpdatedDate(null);
+                }
+
+
+                if (rs.getTimestamp("updatedDate") != null) {
+                    dto.setUpdatedDate(
+                            rs.getTimestamp("updatedDate")
+                                    .toLocalDateTime()
+                    );
+                } else {
+                    dto.setUpdatedDate(null);
+                }
 
                 // 리스트에 담기
                 dtoList.add(dto);
@@ -151,7 +169,7 @@ public class TelBookService implements CrudInterface{
         try {
             sql = "SELECT id, name, age, address, phone ";
             sql = sql + " FROM telBook ";
-            sql = sql + " WHERE name like ? ";
+            sql = sql + " WHERE name LIKE ? ";
             sql = sql + " ORDER BY name DESC";
             psmt = conn.prepareStatement(sql);
             psmt.setString(1, "%" + keyword + "%");
