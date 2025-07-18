@@ -44,7 +44,26 @@ public class TelBookService implements CrudInterface{
     @Override
     public int UpdateData(TelDto dto) {
         System.out.println("[TelBookService.UpdateData]");
-        return 0;
+        int result = 0;
+        try {
+            sql = "UPDATE telBook SET ";
+            sql = sql + " name = ?,";
+            sql = sql + " age = ?,";
+            sql = sql + " address = ?,";
+            sql = sql + " phone = ?";
+            sql = sql + " WHERE id = ?";
+            psmt = conn.prepareStatement(sql);
+            psmt.setString(1, dto.getName());
+            psmt.setInt(2, dto.getAge());
+            psmt.setString(3, dto.getAddress());
+            psmt.setString(4, dto.getPhone());
+            psmt.setInt(5, dto.getId());
+            result = psmt.executeUpdate();
+            psmt.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
     }
 
     @Override
@@ -100,6 +119,27 @@ public class TelBookService implements CrudInterface{
     @Override
     public TelDto findById(int id) {
         System.out.println("[TelBookService.findById]");
+        // id를 받아서 해당 레코드 읽어오는 작업
+        ResultSet rs = null;
+        try {
+            sql = "SELECT id, name, age, address, phone" +
+                    " FROM telBook WHERE id = ?";
+            psmt = conn.prepareStatement(sql);
+            psmt.setInt(1, id);
+            rs = psmt.executeQuery();
+            // 레코드 셋의 자료를 while로 순회하면서 읽는다.
+            while (rs.next()) {
+                TelDto dto = new TelDto();
+                dto.setId(rs.getInt("id"));
+                dto.setName(rs.getString("name"));
+                dto.setAge(rs.getInt("age"));
+                dto.setAddress(rs.getString("address"));
+                dto.setPhone(rs.getString("phone"));
+                return dto;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
         return null;
     }
 
