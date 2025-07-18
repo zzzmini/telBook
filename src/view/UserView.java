@@ -5,6 +5,7 @@ import exception.InputValidation;
 import exception.MyException;
 import service.TelBookService;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -174,8 +175,36 @@ public class UserView {
         // 서비스에 DB에서 리스트요청하기
         dtoList = telBookService.getListAll();
         // 출력
-        dtoList.stream()
-                .forEach(x -> System.out.println(x));
+//        dtoList.stream()
+//                .forEach(x -> System.out.println(x));
+        for (TelDto dto : dtoList) {
+            String insertDate;
+            if (dto.getInsertedDate() != null) {
+                insertDate = dto.getInsertedDate()
+                        .format(DateTimeFormatter
+                                .ofPattern("yyyy-MM-dd HH:mm:ss"));
+            } else {
+                insertDate = "";
+            }
+
+            String updateDate;
+            if (dto.getUpdatedDate() != null) {
+                updateDate = dto.getUpdatedDate()
+                        .format(DateTimeFormatter
+                                .ofPattern("yyyy-MM-dd HH:mm:ss"));
+            } else {
+                updateDate = "";
+            }
+
+            String output = "id=" + dto.getId() +
+                    ", name='" + dto.getName() + '\'' +
+                    ", age=" + dto.getAge() +
+                    ", address='" + dto.getAddress() + '\'' +
+                    ", phone='" + dto.getPhone() + '\'' +
+                    ", insertedDate='" + insertDate + '\'' +
+                    ", updatedDate='" + updateDate;
+            System.out.println(output);
+        }
     }
 
     public void searchView() {
