@@ -66,6 +66,7 @@ public class UserView {
         dto.setAge(age);
         dto.setAddress(address);
         dto.setPhone(phone);
+
         // 서비스에 insert 요청하기
         int result = telBookService.insertData(dto);
         // result > 0 : insert 성공, result = 0 : 실패
@@ -82,6 +83,17 @@ public class UserView {
 
     public void deleteView() {
         System.out.println("=== 전화번호 삭제 ===");
+        System.out.println("삭제할 ID를 입력하세요");
+        int deleteId = sc.nextInt();
+        // 삭제 요청 후 결과를 int 타입으로 받기
+        int result = telBookService.deleteData(deleteId);
+        // result 값이 양수면 성공, 그렇지 않으면 실패
+        if (result > 0) {
+            System.out.println("정상적으로 삭제되었습니다.");
+        } else {
+            System.out.println("삭제되지 않았습니다.");
+            System.out.println("관리자에게 문의하세요.");
+        }
     }
 
     public void findAllView() {
