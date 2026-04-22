@@ -1,13 +1,13 @@
 package dto;
 
 public class TelDto {
-    public Long id;
+    private Long id;
     private String name;
     private int age;
     private String address;
     private String telNumber;
 
-    public TelDto(Long id, String name, int age, String adress, String telNumber){
+    public TelDto(Long id, String name, int age, String address, String telNumber) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -27,20 +27,20 @@ public class TelDto {
         this.name = name;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public int getAge() {
         return age;
     }
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getTelNumber() {
