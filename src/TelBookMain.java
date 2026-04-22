@@ -46,6 +46,7 @@ public class TelBookMain {
                     userView.searchOne();
                     break;
                 case 6:
+                    DBConn.close();
                     System.out.println("종료합니다.");
             }
         }
