@@ -1,23 +1,22 @@
 package service;
 
 import dto.TelDto;
+import repository.TelBookRepository;
 
 public class TelBookService {
-    private TelBookRepository repository; // static 제거 권장
+    private final TelBookRepository repository;
 
     public TelBookService(TelBookRepository repository) {
         this.repository = repository;
     }
 
-    // static을 제거하여 인스턴스 메서드로 변경 (UserView에서 호출 방식 변경 필요)
     public void insert(String name, int age, String address, String phone) {
+        // 받은 자료로 TelDto를 생성
         TelDto dto = new TelDto(0L, name, age, address, phone);
-        int result = repository.insertData(dto); // 생성한 dto를 전달!
-
+        // repo 호출
+        int result = repository.insertData(dto);
         if (result > 0) {
             System.out.println("정상적으로 저장되었습니다.");
-        } else {
-            System.out.println("저장에 실패했습니다.");
         }
     }
 }
