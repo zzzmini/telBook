@@ -66,4 +66,9 @@ public class TelBookRepository {
         }
         return dtoList;
     }
+
+    public List<TelDto> findById(int id) {
+
+        return List.of();
+    }
 }
