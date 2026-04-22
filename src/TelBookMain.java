@@ -34,6 +34,7 @@ public class TelBookMain {
                     userView.update();
                     break;
                 case 3:
+                    // 종료
                     userView.delete();
                     break;
                 case 4:
@@ -41,6 +42,7 @@ public class TelBookMain {
                     userView.searchAll();
                     break;
                 case 5: // id로 1개 검색
+                    // 종료
                     userView.searchOne();
                     break;
                 case 6:

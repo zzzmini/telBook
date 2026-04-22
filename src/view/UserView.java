@@ -80,6 +80,14 @@ public class UserView {
     }
 
     public void delete() {
+        System.out.println("삭제할 ID : ");
+        int id = scanner.nextInt();
+        // 서비스에 호출한 이후에 삭제 성공유무를 리턴받아서
+        // 뷰에서 출력(성공 : 1, 실패 : 0)
+        int result = service.delete(id);
+        System.out.println(result == 1
+                ? "ID : " + id + " 삭제 완료!"
+                : "삭제 실패 : ID 확인하세요");
     }
 
     public void searchAll() {
