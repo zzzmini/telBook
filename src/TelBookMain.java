@@ -31,6 +31,7 @@ public class TelBookMain {
                     userView.insert();
                     break;
                 case 2:
+                    //종료
                     userView.update();
                     break;
                 case 3:

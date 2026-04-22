@@ -33,5 +33,10 @@ public class TelBookService {
     public int delete(int id) {
         return repository.deleteByID(id);
     }
+
+    public void update(TelDto updateData) {
+//        System.out.println(updateData);
+        repository.update(updateData);
+    }
 }
 

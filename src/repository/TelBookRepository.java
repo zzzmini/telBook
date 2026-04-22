@@ -119,5 +119,34 @@ public class TelBookRepository {
         }
         return result;
     }
+
+    public void update(TelDto updateData) {
+        // 1. DB 연결
+        Connection conn = DBConn.getConnection();
+        PreparedStatement psmt = null;
+
+        // 2. 쿼리 생성
+        // 실행 결과를 담을 변수
+        int result = 0;
+        try {
+            String sql = "UPDATE telbook ";
+            sql = sql + " SET name = ?, " ;
+            sql = sql + " age = ?, " ;
+            sql = sql + " address = ?, " ;
+            sql = sql + " phone = ? " ;
+            sql = sql + " WHERE id = ? ";
+
+            psmt = conn.prepareStatement(sql);
+            psmt.setString(1, updateData.getName());
+            psmt.setInt(2, updateData.getAge());
+            psmt.setString(3, updateData.getAddress());
+            psmt.setString(4, updateData.getTelNumber());
+            psmt.setLong(5, updateData.getId());
+            psmt.executeUpdate();
+            psmt.close();
+        } catch (Exception e) {
+            System.out.println("UPDATE 오류 : " + e.getMessage());
+        }
+    }
 }
 
