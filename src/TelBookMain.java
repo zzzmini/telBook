@@ -38,7 +38,7 @@ public class TelBookMain {
                 case 4:
                     userView.searchAll();
                     break;
-                case 5:
+                case 5: // ID로 검색
                     userView.searchOne();
                     break;
                 case 6:
