@@ -5,8 +5,13 @@ import dto.TelDto;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.*;
 
 public class TelBookRepository {
+    public TelBookRepository(Connection connection) {
+    }
+
     public int insertData(TelDto dto) {
         // 1. DB 연결
         Connection conn = DBConn.getConnection();
@@ -28,5 +33,37 @@ public class TelBookRepository {
             System.out.println("INSERT 오류 : " + e.getMessage());
         }
         return result;
+    }
+
+    public List<TelDto> findAll() {
+        List<TelDto> dtoList = new ArrayList<>();
+        Connection conn = DBConn.getConnection();
+        // 쿼리를 실행할 도구
+        PreparedStatement psmt = null;
+        // 검색 결과 레코드 셋을 담을 통
+        ResultSet rs = null;
+        try {
+            // 쿼리 작성
+            String sql = "SELECT * FROM telbook ORDER BY name";
+            psmt = conn.prepareStatement(sql);
+            // 실행 -> 결과는 rs 이 받는다.
+            rs = psmt.executeQuery();
+            // 받은 결과를 DTO List에 차곡차곡 담는다.
+            //rs.next() : 다음 레코드가 있는가?
+            while (rs.next()) {
+                // 읽어온 레코드를 담을 빈 DTO를 생성한다.
+                TelDto dto = new TelDto();
+                dto.SetId(rs.getLong("id"));
+                dto.setName(rs.getString("name"));
+                dto.setAge(rs.getInt("age"));
+                dto.setAddress(rs.getString("address"));
+                dto.setTelNumber(rs.getString("phone"));
+//                System.out.println(dto);
+                dtoList.add(dto);
+            }
+        } catch (Exception e) {
+            System.out.println("Find All Error : " + e.getMessage());
+        }
+        return dtoList;
     }
 }
