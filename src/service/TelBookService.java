@@ -25,5 +25,9 @@ public class TelBookService {
     public List<TelDto> getListAll() {
         return repository.findAll();
     }
+
+    public List<TelDto> getListOne(Long id) {
+        return repository.findById(id);
+    }
 }
 
