@@ -1,7 +1,11 @@
 package dto;
 
 public class TelDto {
+<<<<<<< HEAD
     private Long id;
+=======
+    private Long id;  // 4L
+>>>>>>> ebe58eed74b1936a1d0609f882f294e7674558c1
     private String name;
     private int age;
     private String address;
