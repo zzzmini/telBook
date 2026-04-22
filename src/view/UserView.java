@@ -1,9 +1,12 @@
 package view;
 
+import dto.TelDto;
 import exception.InputValidation;
 import exception.MyException;
 import service.TelBookService;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class UserView {
@@ -15,14 +18,14 @@ public class UserView {
         this.service = service;
     }
 
-    public void insert() throws MyException{
+    public void insert() throws MyException {
         // 검증 클래스 생성
         InputValidation validation = new InputValidation();
         // 입력자료 저장을 위한 변수 선언
-        String name="";
-        int age=0;
-        String phone="";
-        String address="";
+        String name = "";
+        int age = 0;
+        String phone = "";
+        String address = "";
 
         // 이름, 나이, 전화번호, 주소
         System.out.println("== 전화번호 등록 ==");
@@ -38,7 +41,7 @@ public class UserView {
             } catch (MyException e) {
                 System.out.println(e.getMessage());
             }
-        } while (! nameOk);
+        } while (!nameOk);
 
         // 나이 : 0세 ~ 120세 사이값
         boolean ageOk = false;
@@ -51,7 +54,7 @@ public class UserView {
             } catch (MyException e) {
                 System.out.println(e.getMessage());
             }
-        } while (! ageOk);
+        } while (!ageOk);
 
         // 주소
         System.out.println("주소 : ");
@@ -68,7 +71,7 @@ public class UserView {
             } catch (MyException e) {
                 System.out.println(e.getMessage());
             }
-        } while (! phoneOk);
+        } while (!phoneOk);
 
         service.insert(name, age, address, phone);
     }
@@ -80,6 +83,17 @@ public class UserView {
     }
 
     public void searchAll() {
+        List<TelDto> list = new ArrayList<>();
+        list = service.getListAll();
+        if (list.isEmpty()) {
+            System.out.println("주소록이 비어있습니다.");
+            return;
+        }
+        for (TelDto dto : list) {
+            System.out.println(dto);
+        }
+//        스트림을 이용해서 출력
+        list.forEach(x -> System.out.println(x));
     }
 
     public void searchOne() {
