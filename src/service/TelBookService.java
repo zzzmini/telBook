@@ -29,5 +29,9 @@ public class TelBookService {
     public List<TelDto> getListOne(Long id) {
         return repository.findById(id);
     }
+
+    public int delete(int id) {
+        return repository.deleteByID(id);
+    }
 }
 

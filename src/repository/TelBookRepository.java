@@ -90,9 +90,34 @@ public class TelBookRepository {
                 dto.setTelNumber(rs.getString("phone"));
                 dtoList.add(dto);
             }
+            // psmt 닫아주는 작업
+            psmt.close();
+            rs.close();
         } catch (Exception e) {
             System.out.println("FindById Error : " + e.getMessage());
         }
         return dtoList;
     }
+
+    public int deleteByID(int id) {
+        // 1. DB 연결
+        Connection conn = DBConn.getConnection();
+        PreparedStatement psmt = null;
+
+        // 2. 쿼리 생성
+        // 실행 결과를 담을 변수
+        int result = 0;
+        try {
+            String sql = "DELETE FROM telbook WHERE id = ?";
+            psmt = conn.prepareStatement(sql);
+            psmt.setLong(1, id);
+            psmt.executeUpdate();
+            psmt.close();
+            result = 1;
+        } catch (Exception e) {
+            System.out.println("DELETE 오류 : " + e.getMessage());
+        }
+        return result;
+    }
 }
+
