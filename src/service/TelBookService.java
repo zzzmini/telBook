@@ -38,4 +38,8 @@ public class TelBookService {
 //        System.out.println(updateData);
         repository.update(updateData);
     }
+
+    public List<TelDto> search(int choice, String keyword) {
+        return repository.search(choice, keyword);
+    }
 }

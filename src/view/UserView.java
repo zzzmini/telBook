@@ -29,7 +29,7 @@ public class UserView {
 
         // 이름, 나이, 전화번호, 주소
         System.out.println("== 전화번호 등록 ==");
-        // 이름 올바른 값이 들어올 때 까지 반복
+        // 이름 옳바른 값이 들어올 때 까지 반복
         boolean nameOk = false;
         do {
             try {
@@ -191,6 +191,31 @@ public class UserView {
             System.out.println("해당 ID가 없습니다.");
         } else {
             list.forEach(x -> System.out.println(x));
+        }
+    }
+
+    public void search() {
+        int choice = 0;
+        String keyword = "";
+        do{
+            System.out.println("검색할 기준을 선택하세요.");
+            System.out.println("1.이름  2.주소");
+            choice = scanner.nextInt();
+            if(choice == 1){
+                System.out.println("검색할 이름의 일부를 입력 : ");
+                keyword = scanner.next();
+            } else {
+                System.out.println("검색할 주소의 일부를 입력 : ");
+                keyword = scanner.next();
+            }
+        } while (choice < 1 || choice >2);
+        List<TelDto> searchLists = service.search(choice, keyword);
+        // 결과 출력
+        if(searchLists.isEmpty()){
+            System.out.println("검색 결과가 없습니다.");
+            return;
+        } else {
+            searchLists.forEach(x -> System.out.println(x));
         }
     }
 }
