@@ -148,5 +148,42 @@ public class TelBookRepository {
             System.out.println("UPDATE 오류 : " + e.getMessage());
         }
     }
+
+    public List<TelDto> search(int choice, String keyword) {
+        List<TelDto> dtoList = new ArrayList<>();
+        PreparedStatement psmt = null;
+        ResultSet rs = null;
+        Connection conn = DBConn.getConnection();
+        String sql = "";
+        try {
+            if (choice == 1) {
+                // 이름 검색
+                sql = "SELECT * FROM telbook WHERE name LIKE = ?";
+            } else {
+                // 주소 검색
+                sql = "SELECT * FROM telbook WHERE address LIKE = ?";
+            }
+
+            psmt = conn.prepareStatement(sql);
+            psmt.setString(1, "%" + keyword + "%");
+            rs = psmt.executeQuery();
+            // 리스트에 추가
+            while (rs.next()) {
+                TelDto dto = new TelDto();
+                dto.SetId(rs.getLong("id"));
+                dto.setName(rs.getString("name"));
+                dto.setAge(rs.getInt("age"));
+                dto.setAddress(rs.getString("address"));
+                dto.setTelNumber(rs.getString("phone"));
+                dtoList.add(dto);
+            }
+            // psmt 닫아주는 작업
+            psmt.close();
+            rs.close();
+        } catch (Exception e) {
+            System.out.println("Search Error : " + e.getMessage());
+        }
+        return dtoList;
+    }
 }
 
