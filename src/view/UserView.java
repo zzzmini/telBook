@@ -218,4 +218,6 @@ public class UserView {
             searchLists.forEach(x -> System.out.println(x));
         }
     }
+
 }
+
